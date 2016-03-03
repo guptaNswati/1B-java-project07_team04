@@ -1,5 +1,8 @@
 import java.awt.Color;
 import java.awt.Point;
+/**
+ * @author Shiva
+ */
 
 public class ColoredPoint extends Point {
 	private Color color;
