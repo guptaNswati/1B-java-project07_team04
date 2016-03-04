@@ -1,4 +1,8 @@
-
+/**
+ * An object of class MappedValues stores the values of the x and y coordinates.
+ * @author Shiva
+ *
+ */
 public class MappedValues {
  
 	private double xCoordinate;
