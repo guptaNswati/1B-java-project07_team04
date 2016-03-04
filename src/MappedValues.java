@@ -5,9 +5,29 @@
  */
 public class MappedValues {
  
+	private double originalX;
+	private double originalY;
 	private double xCoordinate;
 	private double yCoordinate;
 	
+	
+	public double getOriginalX() {
+		return originalX;
+	}
+
+	public void setOriginalX(double originalX) {
+		this.originalX = originalX;
+	}
+
+	public double getOriginalY() {
+		return originalY;
+	}
+
+	public void setOriginalY(double originalY) {
+		this.originalY = originalY;
+	}
+
+
 	public double getxCoordinate() {
 		return xCoordinate;
 	}
@@ -24,7 +44,9 @@ public class MappedValues {
 		this.yCoordinate = yCoordinate;
 	}
 
-	public MappedValues(){
+	public MappedValues(double originalX, double originalY, double mappedX, double mappedY){
+		setOriginalX(originalX);
+		setOriginalY(originalY);
 		setxCoordinate(xCoordinate);
 		setyCoordinate(yCoordinate);
 	}
