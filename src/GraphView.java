@@ -2,11 +2,13 @@
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
 public class GraphView extends JPanel
 {
+   private static final int POINT_SIZE = 1;
    private int width;
    private int height;
    private Font font;
@@ -16,7 +18,47 @@ public class GraphView extends JPanel
    {
        this.width = width;
        this.height = height;
-       font = new Font("Serif", Font.PLAIN, 11);      
+       font = new Font("Serif", Font.PLAIN, 11);  
+      
+     
+      Iterator<SubscriptionYear> iterator = countries.getNodeAtIndex(0).getData().getSubscriptions().iterator();
+      
+      int dataMinX = 9999;
+      int dataMaxX = 0;
+      
+      double dataMinY = 9999;
+      double dataMaxY = 0.0;
+      
+      
+      SubscriptionYear current = null;
+      
+      while (iterator.hasNext())
+      {
+          current = iterator.next();
+       // update the minYear as minimum year
+          if (current.getYear() < dataMinX)        
+              dataMinX = current.getYear();
+       
+          // update the maxYear as the maximum year, each time new node is added to list
+          else if (current.getYear() > dataMaxX)        
+              dataMaxX = current.getYear();
+      }
+      
+      Country currentCountry;
+      Iterator<Country> iterator_c = countries.iterator();
+      
+      while (iterator_c.hasNext())
+      {
+          currentCountry = iterator_c.next();
+       // update the minYear as minimum year
+          if (currentCountry.getSubscriptions(). < dataMinY)        
+              dataMinX = current.getYear();
+       
+          // update the maxYear as the maximum year, each time new node is added to list
+          else if (current.getYear() > dataMaxX)        
+              dataMaxX = current.getYear();
+      }
+      
    }
    
    public static final double map(double value, double dataMin, double dataMax, double plottedMin, double plottedMax)
