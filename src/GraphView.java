@@ -1,6 +1,7 @@
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -29,7 +30,11 @@ public class GraphView extends JPanel
    public void paintComponent(Graphics g)
    {
        super.paintComponent(g);
-       g.drawLine(20, 20, 300, 20);
+       Graphics2D g2d = (Graphics2D) g;
+       ColoredPoint current;
+       g2d.setColor(current.getColor());    
+       g2d.fillOval((int)current.getX(), (int)current.getY(), POINT_SIZE, POINT_SIZE);
+       g2d.drawString(label, (int)current_point.getX(),(int)current_point.getY()); 
    }
 
 }
