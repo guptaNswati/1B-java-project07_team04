@@ -10,15 +10,28 @@ public class ColoredPoint extends Point {
     private double originalX;
     private double originalY;
     
-    public ColoredPoint(Color color, double originalX, double originalY, int mappedX, int mappedY){
-        super(mappedX, mappedY);
-        this.color = color;
+//    public ColoredPoint(java.awt.Color color, double originalX, double originalY, double mappedX, double mappedY){
+////        super(mappedX, mappedY);
+//        // alternative
+//        // super.x = mappedX;
+//        // super.y = mappedY;
+//        super.setLocation(mappedX, mappedY);
+//        this.color = color;
+//        this.originalX = originalX;
+//        this.originalY = originalY;
+//    }
+
+    public ColoredPoint(Color randomColor, double originalX, double originalY, double mappedX, double mappedY)
+    {
+        // TODO Auto-generated constructor stub
+        super.setLocation(mappedX, mappedY);
+        this.color = randomColor;
         this.originalX = originalX;
         this.originalY = originalY;
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public String getLabel(){

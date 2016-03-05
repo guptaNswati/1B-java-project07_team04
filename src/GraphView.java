@@ -1,5 +1,4 @@
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,55 +9,79 @@ import javax.swing.JPanel;
 public class GraphView extends JPanel
 {
    private static final int POINT_SIZE = 5;
-   private int width;
-   private int height;
+   private final int MARGIN = 20;
+   private int width; // width of JPanel
+   private int height; // height of JPanel
    private Font font;
-   private int minYearX;
-   private int maxYearX;
+  
+   // instances variables to map the data points to the drawing area 
+   private int plottedXmin; 
+   private int plottedXmax; 
+   private int plottedYmin; 
+   private int plottedYmax;
+   
+   //the starting and ending year as well as the minimum and maximum subscription data 
+   private int dataMinX;
+   private int dataMaxX;
    private double dataMinY;
    private double dataMaxY;   
-   private final double MARGIN = 20;
-   private final double WIDTH_MARGIN = 800;
-   private final double HEIGHT_MARGIN = 600;   
-   private LinkedList<MappedValues> mappedCoordinates;
+   
+   private LinkedList<PlottedDataSet> listOfCountryDataPoints;
    
    // constructor for GraphView
    GraphView(int width, int height, LinkedList<Country> countries)
    {
        this.width = width;
        this.height = height;
+       
+       this.plottedXmin = MARGIN;
+       this. plottedXmax = width - MARGIN; 
+       
+       this.plottedYmin = MARGIN;
+       this. plottedYmax = height - MARGIN; 
+       
        font = new Font("Serif", Font.PLAIN, 11); 
        
-       this.minYearX = countries.getNodeAtIndex(0).getData().getMinYear();
-       this.maxYearX = countries.getNodeAtIndex(0).getData().getMaxYear();
+       // using the subscriptions of one country to determine the starting year (dataMinX) and ending year (dataMaxX)
+       this.dataMinX = countries.getNodeAtIndex(0).getData().getMinYear();
+       this.dataMaxX = countries.getNodeAtIndex(0).getData().getMaxYear();
        
+       // setting the minimum subscription value (dataMinY) is quick: it’s zero!       
        dataMinY = 0.0;
+       
+       // To set the maximum subscription value we need to run through all the subscriptions of all the countries 
+       //to find the largest one
        dataMaxY = 0.0;
              
        Iterator <Country> iterator = countries.iterator();
        
-       Country current = null;
+       Country current;
        
-       LinkedList<MappedValues> mappedCoordinates = new LinkedList<MappedValues>();
-       
-       
+       // list of plottedDataPoints holding list of coloredPoints for each country
+       LinkedList<PlottedDataSet> listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
+     
        while(iterator.hasNext())
        {
            current = iterator.next();
            
-           if(current.getMaxSubscription() > dataMaxY)
+           if (current.getMaxSubscription() > dataMaxY)
            {
                dataMaxY = current.getMaxSubscription();
            }
            
+           // After determining the dataMinX, dataMaxX, dataMinY and dataMaxY, 
+           // going through all the data once and saving the mapped values
            double originalX;
            double originalY;
            double mappedX;
            double mappedY;
-                   
+           
+           // current node of type PlottedDataSet holding a list of coloredPoints for each country 
+           //to be stored in listOfCountryDataPoints 
+           PlottedDataSet DataPoints = new PlottedDataSet();;
+          
            SubscriptionYear currentSubscription;
    
-           
            Iterator<SubscriptionYear> iterator_s =  current.getSubscriptions().iterator();
            
            while(iterator_s.hasNext())
@@ -66,17 +89,17 @@ public class GraphView extends JPanel
                currentSubscription = iterator_s.next();
                
                originalX = currentSubscription.getYear();
-               originalY = currentSubscription.getSubscriptions();
                
-               mappedX = map(originalX, minYearX, maxYearX, MARGIN, WIDTH_MARGIN);
+               originalY = currentSubscription.getSubscriptions();              
                
-               mappedY = map(originalY, dataMinY, dataMaxY, HEIGHT_MARGIN, MARGIN);
+               mappedX = map(originalX, dataMinX, dataMaxX, plottedXmin, plottedXmax);
                
-               MappedValues current_mapValues = new MappedValues(originalX, originalY, mappedX, mappedY);
+               mappedY = map(originalY, dataMinY, dataMaxY, plottedYmin, plottedYmax);
                
-               mappedCoordinates.add(current_mapValues);               
-              
-           }           
+               DataPoints.addDataPoints(originalX, originalY, mappedX, mappedY);
+                                           
+           } 
+           listOfCountryDataPoints.add(DataPoints);           
        }
  
    }
@@ -89,24 +112,30 @@ public class GraphView extends JPanel
    /**
     * @Todo complete
     */
-   public void paintComponent(Graphics g)
+   protected void paintComponent(Graphics g)
    {
        super.paintComponent(g);
        Graphics2D g2d = (Graphics2D) g;
-      
-       ColoredPoint current = new ColoredPoint(Color.BLUE, this.minYearX, this.dataMinY, 160 , 140);
-       g2d.setColor(current.getColor());    
-       g2d.fillOval((int)current.getX(), (int)current.getY(), POINT_SIZE, POINT_SIZE);
-       g2d.drawString(current.getLabel(), (int)current.getX(),(int)current.getY()); 
+    
+       Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
-       for(int i = 0; i < mappedCoordinates.size(); i++)
+       PlottedDataSet currentDataPoints;
+       
+       while(iterator_P.hasNext())
        {
-           ColoredPoint current = new ColoredPoint(Color.GREEN, mappedCoordinates.getNodeAtIndex(i));
-           
+           currentDataPoints = iterator_P.next();
+   
+           for (int i = 0; i < currentDataPoints.getDataPoints().size(); i++)
+           {
+           g2d.setColor(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getColor());
+           g2d.fillOval((int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
+                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY(), 
+                   POINT_SIZE, POINT_SIZE);
+           g2d.drawString(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getLabel(), 
+                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
+                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());       
+           }         
        }
-       
-       
-       
    }
 
 }
