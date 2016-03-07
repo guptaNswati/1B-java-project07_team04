@@ -1,10 +1,18 @@
 
+import java.awt.Component;
+
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.ContainerEvent;
 import java.util.Iterator;
 
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 public class GraphView extends JPanel
 {
@@ -37,8 +45,8 @@ public class GraphView extends JPanel
        this.plottedXmin = MARGIN;
        this. plottedXmax = width - MARGIN; 
        
-       this.plottedYmin = MARGIN;
-       this. plottedYmax = height - MARGIN; 
+       this.plottedYmin = height - MARGIN;
+       this. plottedYmax = MARGIN; 
        
        font = new Font("Serif", Font.PLAIN, 11); 
        
@@ -58,8 +66,10 @@ public class GraphView extends JPanel
        Country current;
        
        // list of plottedDataPoints holding list of coloredPoints for each country
-       LinkedList<PlottedDataSet> listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
+      listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
      
+       int count = 0;
+       
        while(iterator.hasNext())
        {
            current = iterator.next();
@@ -78,14 +88,19 @@ public class GraphView extends JPanel
            
            // current node of type PlottedDataSet holding a list of coloredPoints for each country 
            //to be stored in listOfCountryDataPoints 
-           PlottedDataSet DataPoints = new PlottedDataSet();;
-          
+           
+           System.out.println(count);
+           PlottedDataSet dataPoints = new PlottedDataSet();
+           
            SubscriptionYear currentSubscription;
    
            Iterator<SubscriptionYear> iterator_s =  current.getSubscriptions().iterator();
            
+           
+           int count_A = 0;
            while(iterator_s.hasNext())
-           {
+           { 
+               
                currentSubscription = iterator_s.next();
                
                originalX = currentSubscription.getYear();
@@ -96,13 +111,23 @@ public class GraphView extends JPanel
                
                mappedY = map(originalY, dataMinY, dataMaxY, plottedYmin, plottedYmax);
                
-               DataPoints.addDataPoints(originalX, originalY, mappedX, mappedY);
-                                           
+               
+               dataPoints.addDataPoints(originalX, originalY, mappedX, mappedY);
+               
+               
+               System.out.println(dataPoints.getDataPoints().getNodeAtIndex(count_A).getData().toString());  
+               count_A++;
+                            
            } 
-           listOfCountryDataPoints.add(DataPoints);           
-       }
- 
+         
+           this.listOfCountryDataPoints.add(dataPoints);
+           count++;
+      }
+       System.out.println(this.listOfCountryDataPoints.size());
+
    }
+   
+   public LinkedList<PlottedDataSet> getListOfCountryDataPoints() { return this.listOfCountryDataPoints; }  
    
    public static final double map(double value, double dataMin, double dataMax, double plottedMin, double plottedMax)
    {
@@ -116,7 +141,49 @@ public class GraphView extends JPanel
    {
        super.paintComponent(g);
        Graphics2D g2d = (Graphics2D) g;
-    
+       
+       
+      
+       
+//       //Paint background if we're opaque.
+//       if (isOpaque()) 
+//       {
+//           g2d.setColor(getBackground());
+//           g2d.fillRect(0, 0, getWidth(), getHeight());
+//       }
+//       
+//      //If user has chosen a point, paint a small dot on top.
+//       for(int j = 0; j < this.listOfCountryDataPoints.size(); j++)
+//       {
+//           LinkedList<ColoredPoint> currentDataPoints = listOfCountryDataPoints.getNodeAtIndex(j).getData().getDataPoints();
+//           
+//           Iterator<ColoredPoint> iterator_C =  currentDataPoints.iterator();
+//           
+//           while(iterator_C.hasNext())
+//           {
+//               ColoredPoint currentPoint_1 = iterator_C.next();
+//               ColoredPoint currentPoint_2 = iterator_C.next();
+//               
+//               g2d.drawLine((int)currentPoint_1.getX(), (int)currentPoint_1.getY(), (int)currentPoint_2.getX(), (int)currentPoint_2.getY());
+//         
+////           for (int i = 0; i < currentDataPoints.size(); i++)
+////           {
+////               ColoredPoint currentPoint = currentDataPoints.getNodeAtIndex(i).getData();
+////               
+////               if (currentPoint != null)                   
+////               {           
+////                   g2d.drawLine(currentPoint.getX(), currentPoint.getY(), x2, y2);
+////                   g2d.setColor(currentPoint.getColor());
+////                   g2d.fillOval((int)currentPoint.getX(), (int)currentPoint.getY(), POINT_SIZE, POINT_SIZE);                          
+////                   g2d.drawString(currentPoint.getLabel(), (int)currentPoint.getX(), (int)currentPoint.getY());
+//               }
+////               Container someContainer = new Container();
+////               someContainer.add(currentDataPoints, i);
+//               
+//           }         
+//           
+//       }
+//    
        Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
        PlottedDataSet currentDataPoints;
@@ -134,8 +201,10 @@ public class GraphView extends JPanel
            g2d.drawString(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getLabel(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());       
-           }         
+           }        
        }
+       
    }
-
 }
+
+

@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.util.Random;
 
+import javax.swing.JLabel;
+
 /**
  *  a class which holds a list of ColoredPoints
  * @author swati
@@ -8,6 +10,7 @@ import java.util.Random;
  */
 public class PlottedDataSet
 {
+    private JLabel label; // add the name of country
     private LinkedList<ColoredPoint> dataPoints;
     
     private int count = 0;
