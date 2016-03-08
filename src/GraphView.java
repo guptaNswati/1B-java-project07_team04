@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Iterator;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GraphView extends JPanel
@@ -140,11 +141,13 @@ public class GraphView extends JPanel
        int firstX = this.plottedXmin;       
        int firstY = this.plottedYmax;     
        int lastX = this.plottedXmax;
-       int lastY = this.plottedYmin - MARGIN;
+       int lastY = this.plottedYmin - MARGIN;       
        
+       // draws horizontal line
        g2d.drawLine(firstX, lastY, firstX, firstY);       
        g2d.drawString("Year", lastX,lastY);
-      
+     
+       // draws vertical line
        g2d.drawLine(firstX, lastY, lastX, lastY);       
        g2d.drawString("Number of Subscriptions (per 100 people)",firstY, firstX);
       

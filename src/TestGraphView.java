@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.swing.BoxLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -94,8 +95,16 @@ public class TestGraphView
 //       LegendPanel rightPanel = new LegendPanel(200, 600, Color.CYAN);
 //        frame.add(rightPanel);
 
-
-		// Draw the legend
+//        JLabel firstLabel = new JLabel();
+//        firstLabel.setText("Year");
+//        
+//        JLabel secondLabel = new JLabel();
+//        secondLabel.setText("Subscriptions");
+//                
+//        frame.add(firstLabel);
+//        frame.add(secondLabel);
+		
+        // Draw the legend
 		// TO COMPLETE: add the legend panel to your frame
 		//frame.add(/*legendPanel, etc */);
 
