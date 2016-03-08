@@ -14,8 +14,7 @@ import javax.swing.border.Border;
  *
  */
 public class LegendPanel extends JPanel {
-	
-	private int POINT_SIZE = 10;
+
 	private int height;
 	private int width;
 	private Color backgroundColor;
@@ -25,7 +24,6 @@ public class LegendPanel extends JPanel {
 	 * @param width
 	 * @param height
 	 * @param color
-	 * @param border
 	 */
 	public LegendPanel(int width, int height, Color color){
 		this.setSize(width, height);
@@ -35,32 +33,37 @@ public class LegendPanel extends JPanel {
 	
 	/**
 	 * Nested class.
-	 * One object of type Legend holds a label for the country name 
-	 * and an object of type ColoredPoint for the key.
-	 * @author Shivaa
-	 *
+	 * One object of type legend stores a label for the name of country
+	 * and an object of type color for holding the color
 	 */
-	public class Legend {
-		JLabel countryLabel;
-		Graphics g;
+	public class Legend{
 		
-		public Legend(JLabel label, Graphics g){
-			setCountryLabel(countryLabel);
-			
-		}
+		private String countryName;
+		private JLabel countryLabel;
+		private Color legendColor;
 		
-		public JLabel getCountryLabel() {
-			return countryLabel;
+		
+		public Legend(String countryName, Color legendColor){
+			this.countryLabel = new JLabel(countryName);
+			this.legendColor = legendColor;
 		}
 
 
-		public void setCountryLabel(JLabel countryLabel) {
-			this.countryLabel = countryLabel;
+		public Color getLegendColor() {
+			return legendColor;
 		}
-			
+
+
+		public void setLegendColor(Color legendColor) {
+			this.legendColor = legendColor;
 		}
 		
+		
+	}
+	
 	public void paintComponent(Graphics g){
+		Graphics2D g2d = (Graphics2D)g;
+		 
 		
 	
 	}
