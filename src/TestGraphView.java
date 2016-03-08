@@ -6,6 +6,8 @@
  */
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -13,6 +15,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+
 
 
 public class TestGraphView 
@@ -73,17 +77,23 @@ public class TestGraphView
 	{
 		JFrame frame = new JFrame("Cellular Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//BoxLayout myLayout = new BoxLayout(frame, BoxLayout.Y_AXIS);
 
+		//GridLayout layout = new GridLayout(1,(int).2);
 		// TO COMPLETE: Select a layout for your frame		
-	     frame.setLayout(new BorderLayout());
+	   
 
 		// TO COMPLETE: Specify the size of your graph view based on your other panels
-		int graph_panel_size = FRAME_WIDTH;
+		int graph_panel_size = 600;
 
 		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
 
 		// TO COMPLETE: add the GraphView object to your layout
-		frame.add(myPlots);
+        frame.add(myPlots);
+//       LegendPanel rightPanel = new LegendPanel(200, 600, Color.CYAN);
+//        frame.add(rightPanel);
+
 
 		// Draw the legend
 		// TO COMPLETE: add the legend panel to your frame

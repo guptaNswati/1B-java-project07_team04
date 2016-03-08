@@ -30,6 +30,8 @@ public class GraphView extends JPanel
    
    private LinkedList<PlottedDataSet> listOfCountryDataPoints;
    
+   private LinkedList<Legend> listOfLegends;
+   
    // constructor for GraphView
    GraphView(int width, int height, LinkedList<Country> countries)
    {
@@ -61,7 +63,8 @@ public class GraphView extends JPanel
        
        // list of plottedDataPoints holding list of coloredPoints for each country
       listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
-     
+      listOfLegends = new LinkedList<Legend>();
+      
        int counter_1 = 0;
        
        while(iterator.hasNext())
@@ -83,8 +86,9 @@ public class GraphView extends JPanel
            // current node of type PlottedDataSet holding a list of coloredPoints for each country 
            //to be stored in listOfCountryDataPoints 
            PlottedDataSet dataPoints = new PlottedDataSet();
+           Legend legendKey = new Legend(current.getName(), dataPoints.getRandomColor());
            
-//           dataPoints.setLabel(new JLabel(current.getName()));
+//           dataPoints.setLabel(new JLabel());
 //           System.out.println(dataPoints.getLabel());
            SubscriptionYear currentSubscription;
    
@@ -133,9 +137,12 @@ public class GraphView extends JPanel
        int lastX = this.plottedXmax;
        int lastY = this.plottedYmin - MARGIN;
        
-       g2d.drawLine(firstX, lastY, firstX, firstY);
-       g2d.drawLine(firstX, lastY, lastX, lastY);
-
+       g2d.drawLine(firstX, lastY, firstX, firstY);       
+       g2d.drawString("Year", lastX,lastY);
+      
+       g2d.drawLine(firstX, lastY, lastX, lastY);       
+       g2d.drawString("Number of Subscriptions (per 100 people)",firstY, firstX);
+      
        Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
        PlottedDataSet currentDataPoints;
@@ -154,8 +161,7 @@ public class GraphView extends JPanel
            
                g2d.drawString(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getLabel(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
-                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());
-               
+                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());               
            }        
        }
        
