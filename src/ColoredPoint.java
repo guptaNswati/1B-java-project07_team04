@@ -24,7 +24,9 @@ public class ColoredPoint extends Point {
     public ColoredPoint(Color randomColor, double originalX, double originalY, double mappedX, double mappedY)
     {
         // TODO Auto-generated constructor stub
-        super.setLocation(mappedX, mappedY);
+//        super.setLocation(mappedX, mappedY);
+        super.x = (int) mappedX;
+       super.y = (int) mappedY;
         this.color = randomColor;
         this.originalX = originalX;
         this.originalY = originalY;
@@ -35,6 +37,6 @@ public class ColoredPoint extends Point {
     }
 
     public String getLabel(){
-        return super.toString();
+        return "(" + (int)originalX + "," + originalY + ")";
     }
 }

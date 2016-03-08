@@ -5,9 +5,14 @@
  * @author Foothill College, [YOUR NAME HERE]
  */
 
+import java.awt.BorderLayout;
 import java.util.Random;
+
+import javax.swing.BoxLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 public class TestGraphView 
@@ -69,9 +74,8 @@ public class TestGraphView
 		JFrame frame = new JFrame("Cellular Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// TO COMPLETE: Select a layout for your frame
-		//frame.setLayout(/* TO COMPLETE */);
-
+		// TO COMPLETE: Select a layout for your frame		
+	     frame.setLayout(new BorderLayout());
 
 		// TO COMPLETE: Specify the size of your graph view based on your other panels
 		int graph_panel_size = FRAME_WIDTH;
@@ -79,13 +83,11 @@ public class TestGraphView
 		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
 
 		// TO COMPLETE: add the GraphView object to your layout
-		//frame.add(/* myPlots, etc. */);
-
+		frame.add(myPlots);
 
 		// Draw the legend
 		// TO COMPLETE: add the legend panel to your frame
 		//frame.add(/*legendPanel, etc */);
-
 
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setResizable(false);

@@ -1,23 +1,17 @@
-
-import java.awt.Component;
-
-import java.awt.Container;
+/**
+ * 
+ */
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.event.ContainerEvent;
 import java.util.Iterator;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 public class GraphView extends JPanel
 {
-   private static final int POINT_SIZE = 5;
-   private final int MARGIN = 20;
+   private static final int POINT_SIZE = 9;
+   private final int MARGIN = 27;
    private int width; // width of JPanel
    private int height; // height of JPanel
    private Font font;
@@ -48,7 +42,7 @@ public class GraphView extends JPanel
        this.plottedYmin = height - MARGIN;
        this. plottedYmax = MARGIN; 
        
-       font = new Font("Serif", Font.PLAIN, 11); 
+       font = new Font("Serif", Font.PLAIN, 9); 
        
        // using the subscriptions of one country to determine the starting year (dataMinX) and ending year (dataMaxX)
        this.dataMinX = countries.getNodeAtIndex(0).getData().getMinYear();
@@ -68,7 +62,7 @@ public class GraphView extends JPanel
        // list of plottedDataPoints holding list of coloredPoints for each country
       listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
      
-       int count = 0;
+       int counter_1 = 0;
        
        while(iterator.hasNext())
        {
@@ -78,7 +72,7 @@ public class GraphView extends JPanel
            {
                dataMaxY = current.getMaxSubscription();
            }
-           
+                      
            // After determining the dataMinX, dataMaxX, dataMinY and dataMaxY, 
            // going through all the data once and saving the mapped values
            double originalX;
@@ -88,43 +82,35 @@ public class GraphView extends JPanel
            
            // current node of type PlottedDataSet holding a list of coloredPoints for each country 
            //to be stored in listOfCountryDataPoints 
-           
-           System.out.println(count);
            PlottedDataSet dataPoints = new PlottedDataSet();
            
+//           dataPoints.setLabel(new JLabel(current.getName()));
+//           System.out.println(dataPoints.getLabel());
            SubscriptionYear currentSubscription;
    
            Iterator<SubscriptionYear> iterator_s =  current.getSubscriptions().iterator();
+                     
+           int counter_2 = 0;
            
-           
-           int count_A = 0;
            while(iterator_s.hasNext())
-           { 
-               
+           {                
                currentSubscription = iterator_s.next();
                
                originalX = currentSubscription.getYear();
                
                originalY = currentSubscription.getSubscriptions();              
                
-               mappedX = map(originalX, dataMinX, dataMaxX, plottedXmin, plottedXmax);
+               mappedX = map(originalX, dataMinX, dataMaxX, plottedXmin, (plottedXmax-MARGIN));
                
-               mappedY = map(originalY, dataMinY, dataMaxY, plottedYmin, plottedYmax);
-               
-               
+               mappedY = map(originalY, dataMinY, dataMaxY, (plottedYmin - 32), (plottedYmax + 32));
+                              
                dataPoints.addDataPoints(originalX, originalY, mappedX, mappedY);
-               
-               
-               System.out.println(dataPoints.getDataPoints().getNodeAtIndex(count_A).getData().toString());  
-               count_A++;
-                            
-           } 
-         
+                              
+               counter_2++;                           
+           }          
            this.listOfCountryDataPoints.add(dataPoints);
-           count++;
+           counter_1++;
       }
-       System.out.println(this.listOfCountryDataPoints.size());
-
    }
    
    public LinkedList<PlottedDataSet> getListOfCountryDataPoints() { return this.listOfCountryDataPoints; }  
@@ -133,7 +119,7 @@ public class GraphView extends JPanel
    {
        return plottedMin + (plottedMax - plottedMin) * ((value - dataMin) / (dataMax- dataMin));
    }
-   
+      
    /**
     * @Todo complete
     */
@@ -142,48 +128,14 @@ public class GraphView extends JPanel
        super.paintComponent(g);
        Graphics2D g2d = (Graphics2D) g;
        
+       int firstX = this.plottedXmin;       
+       int firstY = this.plottedYmax;     
+       int lastX = this.plottedXmax;
+       int lastY = this.plottedYmin - MARGIN;
        
-      
-       
-//       //Paint background if we're opaque.
-//       if (isOpaque()) 
-//       {
-//           g2d.setColor(getBackground());
-//           g2d.fillRect(0, 0, getWidth(), getHeight());
-//       }
-//       
-//      //If user has chosen a point, paint a small dot on top.
-//       for(int j = 0; j < this.listOfCountryDataPoints.size(); j++)
-//       {
-//           LinkedList<ColoredPoint> currentDataPoints = listOfCountryDataPoints.getNodeAtIndex(j).getData().getDataPoints();
-//           
-//           Iterator<ColoredPoint> iterator_C =  currentDataPoints.iterator();
-//           
-//           while(iterator_C.hasNext())
-//           {
-//               ColoredPoint currentPoint_1 = iterator_C.next();
-//               ColoredPoint currentPoint_2 = iterator_C.next();
-//               
-//               g2d.drawLine((int)currentPoint_1.getX(), (int)currentPoint_1.getY(), (int)currentPoint_2.getX(), (int)currentPoint_2.getY());
-//         
-////           for (int i = 0; i < currentDataPoints.size(); i++)
-////           {
-////               ColoredPoint currentPoint = currentDataPoints.getNodeAtIndex(i).getData();
-////               
-////               if (currentPoint != null)                   
-////               {           
-////                   g2d.drawLine(currentPoint.getX(), currentPoint.getY(), x2, y2);
-////                   g2d.setColor(currentPoint.getColor());
-////                   g2d.fillOval((int)currentPoint.getX(), (int)currentPoint.getY(), POINT_SIZE, POINT_SIZE);                          
-////                   g2d.drawString(currentPoint.getLabel(), (int)currentPoint.getX(), (int)currentPoint.getY());
-//               }
-////               Container someContainer = new Container();
-////               someContainer.add(currentDataPoints, i);
-//               
-//           }         
-//           
-//       }
-//    
+       g2d.drawLine(firstX, lastY, firstX, firstY);
+       g2d.drawLine(firstX, lastY, lastX, lastY);
+
        Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
        PlottedDataSet currentDataPoints;
@@ -193,18 +145,20 @@ public class GraphView extends JPanel
            currentDataPoints = iterator_P.next();
    
            for (int i = 0; i < currentDataPoints.getDataPoints().size(); i++)
-           {
-           g2d.setColor(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getColor());
-           g2d.fillOval((int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
+           {          
+               g2d.setColor(currentDataPoints.getRandomColor());
+           
+               g2d.fillOval((int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY(), 
                    POINT_SIZE, POINT_SIZE);
-           g2d.drawString(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getLabel(), 
+           
+               g2d.drawString(currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getLabel(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
-                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());       
+                   (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());
+               
            }        
        }
        
-   }
+   }  
 }
-
 
