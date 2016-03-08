@@ -30,7 +30,7 @@ public class GraphView extends JPanel
    
    private LinkedList<PlottedDataSet> listOfCountryDataPoints;
    
-   private LinkedList<Legend> listOfLegends;
+   private static LinkedList<Legend> listOfLegends;
    
    // constructor for GraphView
    GraphView(int width, int height, LinkedList<Country> countries)
@@ -86,6 +86,7 @@ public class GraphView extends JPanel
            // current node of type PlottedDataSet holding a list of coloredPoints for each country 
            //to be stored in listOfCountryDataPoints 
            PlottedDataSet dataPoints = new PlottedDataSet();
+           
            Legend legendKey = new Legend(current.getName(), dataPoints.getRandomColor());
            
 //           dataPoints.setLabel(new JLabel());
@@ -113,11 +114,15 @@ public class GraphView extends JPanel
                counter_2++;                           
            }          
            this.listOfCountryDataPoints.add(dataPoints);
+           this.listOfLegends.add(legendKey);
+       
            counter_1++;
       }
    }
    
    public LinkedList<PlottedDataSet> getListOfCountryDataPoints() { return this.listOfCountryDataPoints; }  
+   
+   public LinkedList<Legend> getListOfLegnds() { return this.listOfLegends; }  
    
    public static final double map(double value, double dataMin, double dataMax, double plottedMin, double plottedMax)
    {
@@ -164,6 +169,23 @@ public class GraphView extends JPanel
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());               
            }        
        }
+       
+//       Iterator<Legend> iterator_L =  this.listOfLegends.iterator();
+//       
+//       Legend currentKey;
+//      
+//       while(iterator_L.hasNext())
+//       {
+//           currentKey = iterator_L.next();
+//           
+//           for (int i = 0; i < this.listOfLegends.size(); i++)
+//           {
+//               g2d.drawRect(10, 13, i, i);
+//               g2d.setColor(currentKey.getLegendColor());
+//               g2d.fillRect(10, 13, i, i);              
+//           }
+//           
+//       }
        
    }  
 }
