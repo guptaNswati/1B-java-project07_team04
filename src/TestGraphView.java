@@ -4,10 +4,19 @@
  *
  * @author Foothill College, [YOUR NAME HERE]
  */
-
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.Random;
+
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 
 public class TestGraphView 
@@ -67,26 +76,38 @@ public class TestGraphView
 	private void initializeGui(LinkedList<Country> selectedCountries)
 	{
 		JFrame frame = new JFrame("Cellular Graph");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 
-		// TO COMPLETE: Select a layout for your frame
-		//frame.setLayout(/* TO COMPLETE */);
-
+		// TO COMPLETE: Select a layout 
+		FlowLayout layout = new FlowLayout();
+		frame.setLayout(layout);	
 
 		// TO COMPLETE: Specify the size of your graph view based on your other panels
-		int graph_panel_size = FRAME_WIDTH;
-
-		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
+		int graph_panel_size = 600;
 
 		// TO COMPLETE: add the GraphView object to your layout
-		//frame.add(/* myPlots, etc. */);
+		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
+		myPlots.setPreferredSize(new Dimension(592, FRAME_HEIGHT)); //400
+		JLabel graphLabel = new JLabel("Graph");
+		myPlots.add(graphLabel);
+		frame.add(myPlots);
 
+		 // Draw the legend
+        // TO COMPLETE: add the legend panel to your frame
+       LegendPanel rightPanel = new LegendPanel(200, 600, Color.LIGHT_GRAY, myPlots);
+       rightPanel.setLayout(new FlowLayout ());
+       JLabel legendLabel = new JLabel("Legend Key");
+       rightPanel.add(legendLabel);
 
-		// Draw the legend
-		// TO COMPLETE: add the legend panel to your frame
-		//frame.add(/*legendPanel, etc */);
-
-
+             
+       JScrollPane legendScroller = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+       legendScroller.setPreferredSize(new Dimension(148, FRAME_HEIGHT-60));
+       rightPanel.setAutoscrolls(true);
+      
+       frame.add(legendScroller);
+       legendScroller.setVisible(true);
+       
+ 
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setResizable(false);
 		frame.setVisible(true);		
