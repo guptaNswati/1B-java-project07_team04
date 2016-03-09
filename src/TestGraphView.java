@@ -4,6 +4,7 @@
  *
  * @author Foothill College, [YOUR NAME HERE]
  */
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -11,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -90,20 +92,27 @@ public class TestGraphView
 		myPlots.setPreferredSize(new Dimension(592, FRAME_HEIGHT)); //400
 		JLabel graphLabel = new JLabel("Graph");
 		myPlots.add(graphLabel);
-		frame.add(myPlots);
-
-		 // Draw the legend
-        // TO COMPLETE: add the legend panel to your frame
-       LegendPanel rightPanel = new LegendPanel(200, 600, Color.LIGHT_GRAY, myPlots);
-       rightPanel.setLayout(new FlowLayout ());
+		
+		//Creates scrollbars for GraphView
+		JScrollPane graphScroller = new JScrollPane(myPlots, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		graphScroller.setPreferredSize(new Dimension(580, FRAME_HEIGHT-30));
+		myPlots.setAutoscrolls(true);
+		frame.add(graphScroller);
+		graphScroller.setVisible(true);
+		
+		//Creates a legend panel with legend keys
+       LegendPanel rightPanel = new LegendPanel(200, 600, Color.white, myPlots);
+       rightPanel.setLayout(new BorderLayout());
+       rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
        JLabel legendLabel = new JLabel("Legend Key");
-       rightPanel.add(legendLabel);
+       rightPanel.add(legendLabel, BorderLayout.NORTH);
 
-             
-       JScrollPane legendScroller = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+       
+       // Creates scrollbars for the legend panel.
+       rightPanel.setPreferredSize(new Dimension(148, FRAME_HEIGHT));      
+       JScrollPane legendScroller = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
        legendScroller.setPreferredSize(new Dimension(148, FRAME_HEIGHT-60));
        rightPanel.setAutoscrolls(true);
-      
        frame.add(legendScroller);
        legendScroller.setVisible(true);
        
