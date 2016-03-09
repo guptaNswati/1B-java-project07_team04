@@ -1,12 +1,10 @@
 /**
- * 
+ * @author swati
  */
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Iterator;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GraphView extends JPanel
@@ -31,7 +29,7 @@ public class GraphView extends JPanel
    
    private LinkedList<PlottedDataSet> listOfCountryDataPoints;
    
-   private static LinkedList<Legend> listOfLegends;
+   private LinkedList<Legend> listOfLegends;
    
    // constructor for GraphView
    GraphView(int width, int height, LinkedList<Country> countries)
@@ -64,6 +62,7 @@ public class GraphView extends JPanel
        
        // list of plottedDataPoints holding list of coloredPoints for each country
       listOfCountryDataPoints = new LinkedList<PlottedDataSet>();
+      
       listOfLegends = new LinkedList<Legend>();
       
        int counter_1 = 0;
@@ -86,12 +85,10 @@ public class GraphView extends JPanel
            
            // current node of type PlottedDataSet holding a list of coloredPoints for each country 
            //to be stored in listOfCountryDataPoints 
-           PlottedDataSet dataPoints = new PlottedDataSet();
+           PlottedDataSet dataPoints = new PlottedDataSet();           
            
            Legend legendKey = new Legend(current.getName(), dataPoints.getRandomColor());
-           
-//           dataPoints.setLabel(new JLabel());
-//           System.out.println(dataPoints.getLabel());
+ 
            SubscriptionYear currentSubscription;
    
            Iterator<SubscriptionYear> iterator_s =  current.getSubscriptions().iterator();
@@ -106,7 +103,7 @@ public class GraphView extends JPanel
                
                originalY = currentSubscription.getSubscriptions();              
                
-               mappedX = map(originalX, dataMinX, dataMaxX, plottedXmin, (plottedXmax-MARGIN));
+               mappedX = map(originalX, dataMinX, dataMaxX, (plottedXmin -20), (plottedXmax-MARGIN));
                
                mappedY = map(originalY, dataMinY, dataMaxY, (plottedYmin - 32), (plottedYmax + 32));
                               
@@ -123,7 +120,7 @@ public class GraphView extends JPanel
    
    public LinkedList<PlottedDataSet> getListOfCountryDataPoints() { return this.listOfCountryDataPoints; }  
    
-   public LinkedList<Legend> getListOfLegnds() { return this.listOfLegends; }  
+   public LinkedList<Legend> getListOfLegends() { return listOfLegends; }  
    
    public static final double map(double value, double dataMin, double dataMax, double plottedMin, double plottedMax)
    {
@@ -138,9 +135,9 @@ public class GraphView extends JPanel
        super.paintComponent(g);
        Graphics2D g2d = (Graphics2D) g;
        
-       int firstX = this.plottedXmin;       
+       int firstX = this.plottedXmin - 20;       
        int firstY = this.plottedYmax;     
-       int lastX = this.plottedXmax;
+       int lastX = this.plottedXmax - 20;
        int lastY = this.plottedYmin - MARGIN;       
        
        // draws horizontal line
@@ -149,8 +146,7 @@ public class GraphView extends JPanel
      
        // draws vertical line
        g2d.drawLine(firstX, lastY, lastX, lastY);       
-       g2d.drawString("Number of Subscriptions (per 100 people)",firstY, firstX);
-      
+       g2d.drawString("Number of Subscriptions (per 100 people)",firstY - 25, firstX + 20);
        Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
        PlottedDataSet currentDataPoints;
@@ -171,25 +167,7 @@ public class GraphView extends JPanel
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getX(), 
                    (int)currentDataPoints.getDataPoints().getNodeAtIndex(i).getData().getY());               
            }        
-       }
-       
-//       Iterator<Legend> iterator_L =  this.listOfLegends.iterator();
-//       
-//       Legend currentKey;
-//      
-//       while(iterator_L.hasNext())
-//       {
-//           currentKey = iterator_L.next();
-//           
-//           for (int i = 0; i < this.listOfLegends.size(); i++)
-//           {
-//               g2d.drawRect(10, 13, i, i);
-//               g2d.setColor(currentKey.getLegendColor());
-//               g2d.fillRect(10, 13, i, i);              
-//           }
-//           
-//       }
-       
+       }   
    }  
 }
 

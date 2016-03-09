@@ -4,20 +4,15 @@
  *
  * @author Foothill College, [YOUR NAME HERE]
  */
-
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.Random;
-
-import javax.swing.BoxLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-
+import javax.swing.JScrollPane;
 
 
 public class TestGraphView 
@@ -77,37 +72,36 @@ public class TestGraphView
 	private void initializeGui(LinkedList<Country> selectedCountries)
 	{
 		JFrame frame = new JFrame("Cellular Graph");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//BoxLayout myLayout = new BoxLayout(frame, BoxLayout.Y_AXIS);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 
-		//GridLayout layout = new GridLayout(1,(int).2);
-		// TO COMPLETE: Select a layout for your frame		
-	   
+		// TO COMPLETE: Select a layout 
+		FlowLayout layout = new FlowLayout();
+		frame.setLayout(layout);	
 
 		// TO COMPLETE: Specify the size of your graph view based on your other panels
 		int graph_panel_size = 600;
 
-		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
-
 		// TO COMPLETE: add the GraphView object to your layout
-        frame.add(myPlots);
-//       LegendPanel rightPanel = new LegendPanel(200, 600, Color.CYAN);
-//        frame.add(rightPanel);
+		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
+		myPlots.setPreferredSize(new Dimension(592, FRAME_HEIGHT)); //400
+		JLabel graphLabel = new JLabel("Graph");
+		myPlots.add(graphLabel);
+		frame.add(myPlots);
+		JScrollPane plotScroller = new JScrollPane(myPlots);
+		frame.add(plotScroller);
 
-//        JLabel firstLabel = new JLabel();
-//        firstLabel.setText("Year");
-//        
-//        JLabel secondLabel = new JLabel();
-//        secondLabel.setText("Subscriptions");
-//                
-//        frame.add(firstLabel);
-//        frame.add(secondLabel);
-		
-        // Draw the legend
-		// TO COMPLETE: add the legend panel to your frame
-		//frame.add(/*legendPanel, etc */);
+		 // Draw the legend
+        // TO COMPLETE: add the legend panel to your frame
+       LegendPanel rightPanel = new LegendPanel(200, 600, Color.LIGHT_GRAY, myPlots);
+       JLabel legendLabel = new JLabel("Legend Key");
+       rightPanel.add(legendLabel);
+       //JScrollPane panelScroller = new JScrollPane(rightPanel);
 
+       rightPanel.setPreferredSize(new Dimension(148, FRAME_HEIGHT));
+       JScrollPane legendScroller = new JScrollPane(rightPanel);
+       frame.add(legendScroller);
+       frame.add(rightPanel);
+ 
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setResizable(false);
 		frame.setVisible(true);		

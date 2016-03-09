@@ -9,17 +9,6 @@ public class ColoredPoint extends Point {
     private Color color;
     private double originalX;
     private double originalY;
-    
-//    public ColoredPoint(java.awt.Color color, double originalX, double originalY, double mappedX, double mappedY){
-////        super(mappedX, mappedY);
-//        // alternative
-//        // super.x = mappedX;
-//        // super.y = mappedY;
-//        super.setLocation(mappedX, mappedY);
-//        this.color = color;
-//        this.originalX = originalX;
-//        this.originalY = originalY;
-//    }
 
     public ColoredPoint(Color randomColor, double originalX, double originalY, double mappedX, double mappedY)
     {
@@ -37,6 +26,7 @@ public class ColoredPoint extends Point {
     }
 
     public String getLabel(){
-        return "(" + (int)originalX + "," + originalY + ")";
+        // formating y values i.e subscription data to two decimal places
+        return "(" + (int)originalX + "," + String.format("%.2f", originalY)  + ")";
     }
 }
