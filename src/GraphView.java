@@ -1,5 +1,6 @@
 /**
- * @author swati
+ * @author Team04
+ * @Class [Maps the cellular data of a country to the width and height of the panel]
  */
 import java.awt.Font;
 import java.awt.Graphics;
@@ -9,10 +10,27 @@ import javax.swing.JPanel;
 
 public class GraphView extends JPanel
 {
+    /**
+     * @member POINT_SIZE[Type: int, size of the data point to be plotted on graph]
+     * @member MARGIN[Type: int, spaces out the x and y coordinates]
+     * @member width[Type: int, width of the JPanel]
+     * @member height[Type: int, height of the JPanel]
+     * @member font[Type: font, sets the text size nad style]
+     * @member plottedXmin[Type: int, holds value of minimum x coordinate]
+     * @member plottedXmax[Type: int, holds value of maximum x coordinate]
+     * @member plottedYmin[Type: int, holds value of minimum y coordinate]
+     * @member plottedYmax[Type: int , holds value of maximum y coordinate]
+     * @member dataMinX[Type: int, holds the starting year ]
+     * @member dataMaxY[Type: int, holds the ending year]
+     * @member dataMinY[Type: double, holds the minimum subscription data ]
+     * @member dataMaxY[Type: double, holds the maximum subscription data ]
+     * @member listOfCountryDataPoints[Type: PlottedDataSet, a linkedlist of colored data points]
+     * @member listOfLegends[Type: Legend, a linkedlist of legends objects] 
+     */
    private static final int POINT_SIZE = 9;
-   private final int MARGIN = 27;
-   private int width; // width of JPanel
-   private int height; // height of JPanel
+   private final int MARGIN = 27; 
+   private int width; 
+   private int height; 
    private Font font;
   
    // instances variables to map the data points to the drawing area 
@@ -21,7 +39,6 @@ public class GraphView extends JPanel
    private int plottedYmin; 
    private int plottedYmax;
    
-   //the starting and ending year as well as the minimum and maximum subscription data 
    private int dataMinX;
    private int dataMaxX;
    private double dataMinY;
@@ -31,7 +48,12 @@ public class GraphView extends JPanel
    
    private LinkedList<Legend> listOfLegends;
    
-   // constructor for GraphView
+   /**
+    * constructs an object on GraphView that creates a graph of the country data
+    * @param width [ sets the width of the panel]
+    * @param height[ sets the height of the panel]
+    * @param countries [ takes linkedlist of country objects]
+    */
    GraphView(int width, int height, LinkedList<Country> countries)
    {
        this.width = width;
@@ -49,7 +71,7 @@ public class GraphView extends JPanel
        this.dataMinX = countries.getNodeAtIndex(0).getData().getMinYear();
        this.dataMaxX = countries.getNodeAtIndex(0).getData().getMaxYear();
        
-       // setting the minimum subscription value (dataMinY) is quick: it’s zero!       
+       // setting the minimum subscription value (dataMinY)       
        dataMinY = 0.0;
        
        // To set the maximum subscription value we need to run through all the subscriptions of all the countries 
@@ -65,6 +87,7 @@ public class GraphView extends JPanel
       
       listOfLegends = new LinkedList<Legend>();
       
+      // counter for outer loop
        int counter_1 = 0;
        
        while(iterator.hasNext())
@@ -87,22 +110,26 @@ public class GraphView extends JPanel
            //to be stored in listOfCountryDataPoints 
            PlottedDataSet dataPoints = new PlottedDataSet();           
            
+           // creates an object of type legend using the name of the current country and PlottedDataSet object's color
            Legend legendKey = new Legend(current.getName(), dataPoints.getRandomColor());
  
            SubscriptionYear currentSubscription;
    
            Iterator<SubscriptionYear> iterator_s =  current.getSubscriptions().iterator();
-                     
+            
+           // counter for inner loop
            int counter_2 = 0;
            
            while(iterator_s.hasNext())
            {                
                currentSubscription = iterator_s.next();
                
+               // saves original x and y values to be used in creating object of the type PlottedDataSet
                originalX = currentSubscription.getYear();
                
                originalY = currentSubscription.getSubscriptions();              
                
+               // calculates the x and y value as the per the screen area by calling map()
                mappedX = map(originalX, dataMinX, dataMaxX, (plottedXmin -20), (plottedXmax-MARGIN));
                
                mappedY = map(originalY, dataMinY, dataMaxY, (plottedYmin - 32), (plottedYmax + 32));
@@ -112,8 +139,9 @@ public class GraphView extends JPanel
                counter_2++;                           
            }          
            this.listOfCountryDataPoints.add(dataPoints);
-           this.listOfLegends.add(legendKey);
-       
+          
+           this.listOfLegends.add(legendKey);       
+          
            counter_1++;
       }
    }
@@ -122,13 +150,23 @@ public class GraphView extends JPanel
    
    public LinkedList<Legend> getListOfLegends() { return listOfLegends; }  
    
+   /**
+    *  map the data to the available space of the screen
+    * @param value [Type: double, original data values of x and y ]
+    * @param dataMin [Type: double, starting values of x and y ]
+    * @param dataMax  [Type: double, ending values of x and y ]
+    * @param plottedMin  [Type: double, holds minimum x coordinate and maximum y coordinates ]
+    * @param plottedMax  [Type: double, holds minimum y coordinate and maximum x coordinate ]
+    * @return mappedValue of type double
+    */
    public static final double map(double value, double dataMin, double dataMax, double plottedMin, double plottedMax)
    {
        return plottedMin + (plottedMax - plottedMin) * ((value - dataMin) / (dataMax- dataMin));
    }
       
    /**
-    * @Todo complete
+    * First draws the x-axis and y-axis, names them
+    * then draws the points and their values
     */
    protected void paintComponent(Graphics g)
    {
@@ -140,17 +178,19 @@ public class GraphView extends JPanel
        int lastX = this.plottedXmax - 20;
        int lastY = this.plottedYmin - MARGIN;       
        
-       // draws horizontal line
+       // draws horizontal line and names it
        g2d.drawLine(firstX, lastY, firstX, firstY);       
        g2d.drawString("Year", lastX,lastY);
      
-       // draws vertical line
+       // draws vertical line and names it
        g2d.drawLine(firstX, lastY, lastX, lastY);       
        g2d.drawString("Number of Subscriptions (per 100 people)",firstY - 25, firstX + 20);
+       
        Iterator<PlottedDataSet> iterator_P =  this.listOfCountryDataPoints.iterator();
        
        PlottedDataSet currentDataPoints;
        
+       // generating the colored point for each data value
        while(iterator_P.hasNext())
        {
            currentDataPoints = iterator_P.next();
