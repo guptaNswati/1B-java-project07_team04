@@ -17,10 +17,21 @@ etc.
 Part 2
 ---------
 
-- task 1: [DESCRIPTION, including classes and methods involved]
-	- [OWNER]
-	- [PROJECTED COMPLETION DATE]
-	- [ACTUAL COMPLETION DATE TO github.com repo]
+- task 1: [DESCRIPTION, Created the PlottedDataSet Class for creating the colored points]
+	- [Swati and Shiva]
+	- [03/07/16]
+	- [03/08/16 github.com repo]
+
+- task 2: [DESCRIPTION, Created the rectangles and write on them for adding on the legend panel]
+	- [Swati and Shiva]
+	- [03/07/16]
+	- [03/08/16 github.com repo]
+
+- task 3: [DESCRIPTION, Worked on the implementation of layout and adding multiple panels in the frame]
+	- [Swati and Shiva]
+	- [03/07/16]
+	- [03/08/16 github.com repo]
+
 
 
 
@@ -29,6 +40,10 @@ Part 2
 Extra Credit (if applicable)
 -----------------------
 
+- task 1: [DESCRIPTION, Worked on the adding horizaontal and vertical scroll bars to graph view and legends panels]
+	- [Swati and Shiva]
+	- [03/07/16]
+	- [03/08/16 github.com repo]
 
 
 <br><br>
