@@ -1,23 +1,18 @@
 /**
  *  Tests the GraphView class by creating an object of type GraphView and adding components to it.
  *  Creates one container of type JFrame and adds an object of type GraphView.
- *
- * @author Foothill College, [YOUR NAME HERE]
+ * 	@author Foothill College, Team04
  */
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 
@@ -80,39 +75,43 @@ public class TestGraphView
 		JFrame frame = new JFrame("Cellular Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 
-		// TO COMPLETE: Select a layout 
+		//Sets the layout for the frame
 		FlowLayout layout = new FlowLayout();
 		frame.setLayout(layout);	
 
-		// TO COMPLETE: Specify the size of your graph view based on your other panels
 		int graph_panel_size = 600;
 
-		// TO COMPLETE: add the GraphView object to your layout
+		//Creates an object of type GraphView and adds a label
 		GraphView myPlots = new GraphView(graph_panel_size, FRAME_HEIGHT, selectedCountries);	
 		myPlots.setPreferredSize(new Dimension(592, FRAME_HEIGHT)); //400
+		myPlots.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		JLabel graphLabel = new JLabel("Graph");
 		myPlots.add(graphLabel);
 		
 		//Creates scrollbars for GraphView
-		JScrollPane graphScroller = new JScrollPane(myPlots, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane graphScroller = new JScrollPane(myPlots, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		graphScroller.setPreferredSize(new Dimension(580, FRAME_HEIGHT-30));
 		myPlots.setAutoscrolls(true);
+		
+		//adds to frame
 		frame.add(graphScroller);
 		graphScroller.setVisible(true);
 		
-		//Creates a legend panel with legend keys
-       LegendPanel rightPanel = new LegendPanel(200, 600, Color.white, myPlots);
-       rightPanel.setLayout(new BorderLayout());
-       rightPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		//Creates a legend panel with legend keys and adds a label
+       LegendPanel graphKey = new LegendPanel(200, 600, Color.white, myPlots);
+       graphKey.setLayout(new BorderLayout());
+       graphKey.setBorder(BorderFactory.createLineBorder(Color.BLACK));
        JLabel legendLabel = new JLabel("Legend Key");
-       rightPanel.add(legendLabel, BorderLayout.NORTH);
+       graphKey.add(legendLabel, BorderLayout.NORTH);
 
        
        // Creates scrollbars for the legend panel.
-       rightPanel.setPreferredSize(new Dimension(148, FRAME_HEIGHT));      
-       JScrollPane legendScroller = new JScrollPane(rightPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+       graphKey.setPreferredSize(new Dimension(148, FRAME_HEIGHT));      
+       JScrollPane legendScroller = new JScrollPane(graphKey, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
        legendScroller.setPreferredSize(new Dimension(148, FRAME_HEIGHT-60));
-       rightPanel.setAutoscrolls(true);
+       graphKey.setAutoscrolls(true);
+       
+       // Adds to frame
        frame.add(legendScroller);
        legendScroller.setVisible(true);
        

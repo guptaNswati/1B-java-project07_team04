@@ -1,7 +1,9 @@
 import java.awt.Color;
 import java.awt.Point;
 /**
- * @author Shiva
+ * One object of class ColoredPoint represents a point on the graph.
+ * One point represents the subscription data of one country for one year.
+ * @author Team04
  */
 
 public class ColoredPoint extends Point {
@@ -9,6 +11,14 @@ public class ColoredPoint extends Point {
 	private double originalX;
 	private double originalY;
 	
+	/**
+	 * Constructs an object of type ColoredPoint of type ColoredPoint
+	 * @param color         color of the poiny
+	 * @param originalX		value of year
+	 * @param originalY		value of subscription 
+	 * @param mappedX		mapped x-coordinate of the point
+	 * @param mappedY		mapped y-coordinate of the point
+	 */
 	public ColoredPoint(Color color, double originalX, double originalY, int mappedX, int mappedY){
 		super(mappedX, mappedY);
 		this.color = color;
@@ -16,11 +26,21 @@ public class ColoredPoint extends Point {
 		this.originalY = originalY;
 	}
 
+	/**
+	 * Returns the color of each coloredPoint
+	 * @return color  	color of coloredPoint
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * Returns a string representation x and y values of the data point
+	 * @return label displaying x and y values of a point  
+	 */
 	public String getLabel(){
-		return super.toString();
+		  return "(" + (int)originalX + "," + String.format("%.2f", originalY)  + ")";
+		
 	}
+	
 }
