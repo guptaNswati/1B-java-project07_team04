@@ -1,0 +1,28 @@
+FEEDBACK:
+
+For future, consider more clearly defining what each partner’s contribution should be.
+        This doesn’t have to be set in concrete and plan on being flexible.
+	Indeed team projects usually take more time as they require coordination between team members.
+	In return, you can more easily build more complex interesting projects,
+	projects that perhaps you'd want to include in your future resume.
+
+
+-1 Incomplete implementation of class GraphView and paintComponent()
+   does not correctly draw the y-axis label. This required
+   you to investigate and post questions on how to rotate graphics state.
+
+
+-1 Incomplete task description posted on 03/03.
+	An overview and lists of tasks and their authors is necessary for me to 
+	accurately evaluate the contribution of each team member.
+	
+	
+Extra Credit Opportunity 1:
++3 Excellent job of investing and implementing of a scrollable legend panel!
+
+   Good further investigation of implementing a scrollable graph panel.
+   However, consider how much it adds to the readability of the graph.
+
+	
+-Bita.
+
